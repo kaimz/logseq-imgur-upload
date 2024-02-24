@@ -1,11 +1,32 @@
 import "@logseq/libs";
 
+import { logseq as PL } from "package.json";
+import {
+	SettingSchemaDesc,
+} from "@logseq/libs/dist/LSPlugin.user";
+
+const settings: SettingSchemaDesc[] = [
+	// @ts-expect-error
+	{
+		key: "bannerHeading",
+		title: "Settings",
+		type: "heading",
+	},
+	{
+		key: "clientId",
+		title: "Client-ID",
+		description: "Client id, to get.",
+		default: "",
+		type: "string",
+	},
+]
+logseq.useSettingsSchema(settings);
 const uploadToImgur = async (formData) => {
 	// formData.append('album', 'EVGILvAjGfArJFI');
 	return fetch("https://api.imgur.com/3/image", {
 		method: "POST",
 		headers: new Headers({
-			Authorization: "Client-ID c803cb9700a03b9",
+			Authorization: "Client-ID " + logseq.settings.clientId,
 		}),
 		body: formData,
 	});
